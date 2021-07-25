@@ -1,6 +1,8 @@
 import pygame
 import time
 import random
+
+from pygame.constants import MOUSEBUTTONDOWN
  
 pygame.init()
  
@@ -58,6 +60,9 @@ def our_snake(snake_block, snake_list):
 def message(msg, color):
     mesg = font_style.render(msg, True, color)
     dis.blit(mesg, [dis_width / 6, dis_height / 3])
+
+# def settingsMenu():
+#     while True:
  
 def gameLoop():
     game_over = False
@@ -71,6 +76,7 @@ def gameLoop():
  
     snake_List = []
     Length_of_snake = 1
+
  
     foodx = round(random.randrange(game_start, dis_width + game_start - snake_block) / 25.0) * 25.0
     foody = round(random.randrange(game_start, dis_height + game_start - snake_block) / 25.0) * 25.0
@@ -112,11 +118,25 @@ def gameLoop():
             game_close = True
         x1 += x1_change
         y1 += y1_change
-
+        
+        clickSettings = False 
         dis.fill(dark_green)                                                                  # Background is black
         pygame.draw.rect(dis, green2, [100, 100, 600, 600])                                   # draw the play area
         pygame.draw.line(dis, black, (100, 100), (700, 100))
+        
+        settingsButton = pygame.Rect(750, 10, 50, 20)
+        pygame.draw.rect(dis, red, settingsButton)                                          # settings button
+        mx, my = pygame.mouse.get_pos()
 
+        if settingsButton.collidepoint((mx,my)):
+            if clickSettings:
+                pass
+
+        if event.type == MOUSEBUTTONDOWN:
+            if event.button == 1:
+                clickSettings = True
+
+        
         #pygame.draw.rect(dis, red, [foodx, foody, snake_block, snake_block])
         dis.blit(pygame.transform.scale(food_im, (snake_block, snake_block)), (foodx, foody))
         snake_Head = []
